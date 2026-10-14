@@ -196,11 +196,13 @@ class GnomeAgentAgent(PrometheusAgent):
                 if line.startswith("|"):
                     break  # hit another table before finding a caption
                 match = caption_re.match(line)
+                #print(match, line)
                 if match:
                     caption_start_index = j
                     caption_end_index = start - 1
                     caption = "".join(lines[caption_start_index:caption_end_index])
                     break
+
 
             # Drop the markdown separator row (e.g. |---|---|), then strip leading/trailing pipes
             table_lines = [
