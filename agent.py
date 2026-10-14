@@ -170,7 +170,7 @@ class GnomeAgentAgent(PrometheusAgent):
         separator_re = re.compile(r"^\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?$")
 
         # Find the instance where Table is mentioned as the first word
-        caption_re = re.compile(r"^\s*(Table\s+\d+\.?.*)$", re.IGNORECASE)
+        caption_re = re.compile(r"^\W*Table\b", re.IGNORECASE)
 
         # 1. Locate contiguous blocks of lines that form tables
         table_blocks = []  # list of (start_idx, end_idx_exclusive)
@@ -192,11 +192,14 @@ class GnomeAgentAgent(PrometheusAgent):
             caption = ""
             for j in range(start - 1, -1, -1):
                 line = lines[j].strip()
+
                 if line.startswith("|"):
                     break  # hit another table before finding a caption
                 match = caption_re.match(line)
                 if match:
-                    caption = match.group(1).strip()
+                    caption_start_index = j
+                    caption_end_index = start - 1
+                    caption = "".join(lines[caption_start_index:caption_end_index])
                     break
 
             # Drop the markdown separator row (e.g. |---|---|), then strip leading/trailing pipes
