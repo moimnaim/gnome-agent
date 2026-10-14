@@ -57,9 +57,7 @@ async def test_markdown_to_csv(context, event_queue):
 
     agent = _make_agent()
     result = agent.markdown_to_csv(markdown_string)
-
-#    print(result)
-
+    
     # Check that the number of tables is correct
     assert len(result) == 3
 
@@ -84,8 +82,6 @@ async def test_plot_table_index(context, event_queue):
     agent = _make_agent()
     result = agent.plot_csv_xy(file_path=file_path, png_file=output_file)
 
-    print(result)
-
 async def test_plot_table_exact_name(context, event_queue):
     # Load the csv data based on column indices
     # Specify the path to your csv file
@@ -94,9 +90,6 @@ async def test_plot_table_exact_name(context, event_queue):
 
     agent = _make_agent()
     result = agent.plot_csv_xy(file_path=file_path, x_col="time", y_col="flow", png_file=output_file)
-
-    print(result)
-
 
 async def test_markdown_to_csv_no_bold(context, event_queue):
     # Load the test document
